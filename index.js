@@ -12,7 +12,7 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
-    if (message.content.startsWith('/anime')) {
+    if (message.content.startsWith('/anime') || message.content.startsWith('/manga')) {
         new MyAnimeListHandler(message);
     }
 });

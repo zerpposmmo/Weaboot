@@ -36,14 +36,26 @@ export default class MyAnimeListHandler {
         let embed=  new Discord.RichEmbed();
         let self = this;
         parseString(data, function (err, result) {
-            let entry = result.anime.entry[0];
-            embed.setTitle(self.cleanBrackets(entry.title))
-                .setThumbnail(self.cleanBrackets(entry.image))
-                .addField('Type : ', self.cleanBrackets(entry.type))
-                .addField('Episodes : ', self.cleanBrackets(entry.episodes))
-                .addField('Status : ', self.cleanBrackets(entry.status))
-                .addField('Score : ', self.cleanBrackets(entry.score))
-                .setURL(URL + command + '/' + self.cleanBrackets(entry.id));
+            let entry;
+            if(command === '/anime') {
+                entry = result.anime.entry[0];
+                embed.setTitle(self.cleanBrackets(entry.title))
+                    .setThumbnail(self.cleanBrackets(entry.image))
+                    .addField('Type : ', self.cleanBrackets(entry.type))
+                    .addField('Episodes : ', self.cleanBrackets(entry.episodes))
+                    .addField('Status : ', self.cleanBrackets(entry.status))
+                    .addField('Score : ', self.cleanBrackets(entry.score))
+                    .setURL(URL + command + '/' + self.cleanBrackets(entry.id));
+            } else if(command === '/manga') {
+                let entry = result.manga.entry[0];
+                embed.setTitle(self.cleanBrackets(entry.title))
+                    .setThumbnail(self.cleanBrackets(entry.image))
+                    .addField('Type : ', self.cleanBrackets(entry.type))
+                    .addField('Chapters : ', self.cleanBrackets(entry.chapters))
+                    .addField('Status : ', self.cleanBrackets(entry.status))
+                    .addField('Score : ', self.cleanBrackets(entry.score))
+                    .setURL(URL + command + '/' + self.cleanBrackets(entry.id));
+            }
         });
         return embed;
     }
