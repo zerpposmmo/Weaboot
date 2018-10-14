@@ -1,4 +1,4 @@
-import MyAnimeListHandler from "./handlers/myAnimeListHandler";
+import CommandHandler from "./handlers/commandHandler";
 
 const Discord = require('discord.js');
 require('dotenv').config();
@@ -12,8 +12,9 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
-    if (message.content.startsWith('/anime') || message.content.startsWith('/manga')) {
-        new MyAnimeListHandler(message);
+    if(!message.author.bot && message.content.startsWith('/')) {
+        console.log(message.cleanContent);
+        new CommandHandler(message);
     }
 });
 
