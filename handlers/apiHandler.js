@@ -1,5 +1,6 @@
 let axios = require('axios');
 require('dotenv').config();
+import { getEmbed} from "./helpers/embedsHelper";
 
 export default class ApiHandler {
 
@@ -10,18 +11,18 @@ export default class ApiHandler {
         });
     }
 
-    request(query) {
+    searchRequest(query, type) {
         this.instance.get(query).then((response) => {
             if (response.status === 200) {
-                console.log(response)
-                /*this.channel.send(self.getRichEmbed(response.data, command)).catch((error) => {
+                let embed = getEmbed(response.data, type);
+                this.channel.send(embed).catch((error) => {
                     this.channel.send('Oops ! Something went wrong while executing your request ...');
                     console.log(error)
-                });*/
+                });
             }
-        }).catch((err) => {
+        }).catch((error) => {
             this.channel.send('No results found !');
-            console.log(err);
+            console.log(error);
         });
     }
 }
