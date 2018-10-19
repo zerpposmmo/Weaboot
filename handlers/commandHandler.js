@@ -2,6 +2,7 @@ import ApiHandler from "./apiHandler";
 
 let Discord = require('discord.js');
 const searchTypes = ['anime', 'manga', 'person', 'character'];
+const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
 
 export default class CommandHandler {
 
@@ -28,15 +29,26 @@ export default class CommandHandler {
                 let argument = message.cleanContent.replace(command + ' ' + type + ' ', '').replace(/ /g, '%20');
                 argument = '?q=' + argument;
                 let query = command + '/' + type + '/' + argument;
-                console.log(query);
                 apiHandler.searchRequest(query, type);
                 break;
             case '/schedule':
+                let day;
+                if(split.length > 1) {
+                    day = split[1];
+                } else day = days[new Date().getDay()];
+                console.log(day);
+                if(days.indexOf(day) === -1) {
+                    embed.setTitle('Please enter a valid day')
+                        .setDescription('See command details with /help');
+                    message.channel.send(embed);
+                    break;
+                }
+                apiHandler.searchRequest(command + '/' + day, day);
                 break;
             case '/help':
                 embed.setTitle('List of available commands :')
                     .addField('/search [type] [argument]', 'Search for an anime, manga, person or character')
-                    .addField('/schedule', 'See today\'s releases')
+                    .addField('/schedule [day]', 'See today\'s releases')
                     .addField('/help', '¯\\_(ツ)_/¯');
                 message.channel.send(embed);
                 break;

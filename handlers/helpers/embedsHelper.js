@@ -1,20 +1,28 @@
 let Discord = require('discord.js');
 
 export const getEmbed = (data, type) => {
-    let results = data.results;
     let embed = '';
     switch (type) {
         case 'anime':
-            embed = animeEmbed(results[0]);
+            embed = animeEmbed(data.results[0]);
             break;
         case 'manga':
-            embed = mangaEmbed(results[0]);
+            embed = mangaEmbed(data.results[0]);
             break;
         case 'character':
         case 'person':
-            embed = peopleEmbed(results[0]);
+            embed = peopleEmbed(data.results[0]);
             break;
-        default :
+        case 'sunday':
+        case 'monday':
+        case 'tuesday':
+        case 'wednesday':
+        case 'thursday':
+        case 'friday':
+        case 'saturday':
+            embed = scheduleEmbed(type, data[type]);
+            break;
+        default:
             break;
     }
     return embed;
@@ -53,4 +61,13 @@ const peopleEmbed = (data) => {
         .setThumbnail(data.image_url)
         .setURL(data.url);
     return embed;
+};
+
+const scheduleEmbed = (day, data) => {
+  let embed = new Discord.RichEmbed();
+  embed.setTitle('Schedule for ' + day);
+  data.forEach((element) => {
+      embed.addField(element.title, element.url);
+  });
+  return embed;
 };
