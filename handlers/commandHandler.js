@@ -36,7 +36,6 @@ export default class CommandHandler {
                 if(split.length > 1) {
                     day = split[1];
                 } else day = days[new Date().getDay()];
-                console.log(day);
                 if(days.indexOf(day) === -1) {
                     embed.setTitle('Please enter a valid day')
                         .setDescription('See command details with /help');

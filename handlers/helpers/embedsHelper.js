@@ -25,6 +25,7 @@ export const getEmbed = (data, type) => {
         default:
             break;
     }
+    embed.setColor(5301186);
     return embed;
 };
 
